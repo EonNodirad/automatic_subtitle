@@ -93,15 +93,7 @@ Si vous voulez tout contrôler étape par étape.
 
 ---
 
-## ⚙️ Paramétrage du découpage
+## Paramétrage du découpage
 
 Dans l'interface graphique, vous pouvez définir le nombre maximum de caractères par ligne de sous-titre. L'algorithme se chargera de ne jamais couper un mot en son milieu, tout en gardant une synchronisation parfaite avec l'audio.
 
-```
-
----
-
-Avec ça, ton projet est extrêmement professionnel, facile à prendre en main par n'importe qui, et toutes les méthodes sont couvertes !
-
-Souhaites-tu que l'on rédige également un fichier `.gitignore` très rapide pour fi
-```
