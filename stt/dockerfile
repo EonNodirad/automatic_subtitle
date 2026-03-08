@@ -2,9 +2,10 @@ FROM python:3.10-slim
 
 WORKDIR /app
 
+# Permet de voir les print() en direct dans les logs Docker (très utile pour débugger)
+ENV PYTHONUNBUFFERED=1
+
 # 1. Installation des dépendances système indispensables
-# ffmpeg : obligatoire pour traiter les fichiers audio
-# libgomp1 : obligatoire pour le moteur de calcul ctranslate2 (utilisé par Whisper)
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     libgomp1 \
@@ -14,15 +15,14 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
-# 3. PRÉ-TÉLÉCHARGEMENT DU MODÈLE 
+# 3. PRÉ-TÉLÉCHARGEMENT DU MODÈLE (Corrigé sur 'small')
 # On force Whisper à télécharger le modèle pendant le build de l'image.
-# Comme ça, au lancement du container, c'est instantané.
-RUN python -c "from faster_whisper import WhisperModel; WhisperModel('base', device='cpu', compute_type='int8')"
+RUN python -c "from faster_whisper import WhisperModel; WhisperModel('small', device='cpu', compute_type='int8')"
 
 # 4. Copie du reste du code
 COPY . .
 
-# Pas besoin de memory ici (c'est pour le backend), mais on garde si tu as une logique spécifique
+# Création du dossier recordings (le 777 est bourrin mais efficace pour du local)
 RUN mkdir -p /app/recordings && chmod -R 777 /app/recordings
 
 EXPOSE 8001
